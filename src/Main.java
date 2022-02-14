@@ -7,5 +7,6 @@ public class Main {
         System.out.println("도서관 프로젝트 시작!");
         System.out.println("맥에서 커밋한 내용");
         System.out.println("맥에서 커밋한 내용2");
+        System.out.println("데탑에서 커밋");
     }
 }
