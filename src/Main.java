@@ -16,13 +16,13 @@ public class Main {
             System.out.println("================= 도서관리 프로그램 입니다.=====================");
             System.out.println("01. 회원등록 \t02. 도서등록 \t03. 회원조회 \t04. 도서조회");
             System.out.println("05. 회원삭제 \t06. 도서삭제 \t07. 도서대여 \t08. 도서반납");
-            System.out.println("09. 대여리스트\t10. 반납리스트");
+            System.out.println("09. 대여리스트\t10. 반납리스트 \t11.회원리스트");
             System.out.println("============================================================");
 
             System.out.print("실행할 기능을 선택하세요. (프로그램 종료 : 0) => ");
             Scanner sc = new Scanner(System.in);
             int trigger = Util.getScannerNextInt();;
-            if(trigger > 10 || trigger < 0){
+            if(trigger > 11 || trigger < 0){
                 System.out.println("잘못된 숫자를 입력하셨습니다. 다시 입력하세요");
                 continue;
             }
@@ -32,6 +32,7 @@ public class Main {
                     System.out.println("도서관리 프로그램을 종료합니다.");
                     return;
                 case 1:
+                    addMember();
                     break;
                 case 2:
                     break;
@@ -51,18 +52,24 @@ public class Main {
                     break;
                 case 10:
                     break;
+                case 11:
+                    displayMemberList();
+                    break;
             }
 
         }
     }
 
-    public static void addMember() {
+    /*
+     * memberList에 Member 추가
+     */
+    private static void addMember() {
         Scanner sc = new Scanner(System.in);
         String name;
         String sex;
         int age;
 
-        System.out.println("회원을 등록합니다.");
+        System.out.println("\r\n회원을 등록합니다.");
         System.out.print("이름 : ");
         name = sc.next();
         System.out.print("성별 : ");
@@ -70,7 +77,18 @@ public class Main {
         System.out.print("나이 : ");
         age = Util.getScannerNextInt();
 
-
-
+        memberList.add(Member.getMember(name, sex, age));
+        System.out.println("등록되었습니다. \r\n");
+    }
+    /*
+     * memberList의 목록을 보여줌
+     */
+    private static void displayMemberList(){
+        System.out.println("\r\n회원 목록");
+        for(int i = 0; i < memberList.size(); i++){
+            Member member = memberList.get(i);
+            System.out.println(i + 1 + ". 이름 : " + member.getName() + " 나이 : " + member.getAge() + " 성별 : " + member.getSex());
+        }
+        System.out.println();
     }
 }
