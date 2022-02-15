@@ -1,34 +1,23 @@
 public class Book {
-
-    private int id; // 고유 키
     private int price; // 가격
     private String name; // 제목
     private String description; // 설명
 
-    private Book(int id, int price, String name, String description){
-        this.id = id;
+    private Book(String name, int price, String description){
         this.price = price;
         this.name = name;
         this.description = description;
     }
 
-    public static Book getBook(int id, int price, String name, String description){
-        return new Book(id, price, name, description);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    private void setId(int id) {
-        this.id = id;
+    public static Book getBook(String name,int price, String description){
+        return new Book(name, price, description);
     }
 
     public int getPrice() {
         return price;
     }
 
-    private void setPrice(int price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -36,11 +25,11 @@ public class Book {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    private String getDescription() {
+    public String getDescription() {
         return description;
     }
 
