@@ -1,3 +1,4 @@
+import javax.swing.text.html.HTMLDocument;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Stream;
@@ -22,49 +23,42 @@ public class Main {
 
             System.out.print("실행할 기능을 선택하세요. (프로그램 종료 : 0) => ");
             Scanner sc = new Scanner(System.in);
-            int trigger = Util.getScannerNextInt();;
+            int trigger = Util.getScannerNextInt();
             if(trigger > 12 || trigger < 0){
                 System.out.println("잘못된 숫자를 입력하셨습니다. 다시 입력하세요");
                 continue;
             }
 
             switch (trigger){
-                case 0: // 종료
+                // 종료
+                case 0 -> {
                     System.out.println("도서관리 프로그램을 종료합니다.");
                     return;
-                case 1: // 회원등록
-                    addMember();
-                    break;
-                case 2: // 도서등록
-                    addBook();
-                    break;
-                case 3: // 회원조회
-                    displayMemberList();
-                    break;
-                case 4: // 도서조회
-                    displayBookList();
-                    break;
-                case 5: // 회원삭제
-                    deleteMember();
-                    break;
-                case 6: // 도서삭제
-                    deleteBook();
-                    break;
-                case 7: // 도서대여
-                    lendBook();
-                    break;
-                case 8: // 도서반납
-                    returnBook();
-                    break;
-                case 9: // 회원수정
-                    break;
-                case 10: // 도서수정
-                    break;
-                case 11: // 대여리스트
-                    displayRentalList();
-                    break;
-                case 12: // 반납리스트
-                    break;
+                }
+                // 회원등록
+                case 1 -> addMember();
+                // 도서등록
+                case 2 -> addBook();
+                // 회원조회
+                case 3 -> displayMemberList();
+                // 도서조회
+                case 4 -> displayBookList();
+                // 회원삭제
+                case 5 -> deleteMember();
+                // 도서삭제
+                case 6 -> deleteBook();
+                // 도서대여
+                case 7 -> lendBook();
+                // 도서반납
+                case 8 -> returnBook();
+                // 회원수정
+                case 9 -> updateMember();
+                // 도서수정
+                case 10 -> updateBook();
+                // 대여리스트
+                case 11 -> displayRentalList();
+                // 반납리스트
+                //case 12 -> {}
             }
 
         }
@@ -176,7 +170,7 @@ public class Main {
         System.out.print("대여할 도서를 입력하세요 => ");
         bookName = sc.next();
         var targetBook = bookList.stream().filter(x -> x.getName().equals(bookName)).findFirst();
-        if(targetBook.isPresent() == false){
+        if(!targetBook.isPresent()){
             System.out.println(bookName + " 도서는 존재하지 않습니다.");
             return;
         }
@@ -188,7 +182,7 @@ public class Main {
         System.out.print("대여해줄 회원을 입력하세요 => ");
         memberName = sc.next();
         var targetMember = memberList.stream().filter(x -> x.getName().equals(memberName)).findFirst();
-        if(targetMember.isPresent() == false){
+        if(!targetMember.isPresent()){
             System.out.println(memberName + " 회원은 존재하지 않습니다.");
             return;
         }
@@ -206,7 +200,7 @@ public class Main {
         System.out.println("반납될 도서를 입력하세요 => ");
         bookName = sc.next();
         var targetBook = bookList.stream().filter(x -> x.getName().equals(bookName)).findFirst();
-        if(targetBook.isPresent() == false){
+        if(!targetBook.isPresent()){
             System.out.println(bookName + " 도서는 존재하지 않습니다.");
             return;
         }
@@ -218,5 +212,113 @@ public class Main {
             System.out.println(bookName + " 도서는 대여되지 않은 도서입니다.");
 
         }
+    }
+    /* 회원 수정 */
+    private static void updateMember() {
+        Scanner sc = new Scanner(System.in);
+        String memberName;
+        System.out.print("\r\n수정할 회원 이름을 입력하세요 => ");
+        memberName = sc.next();
+        var targetMember = memberList.stream().filter(x -> x.getName().equals(memberName)).findFirst();
+        if (!targetMember.isPresent()) {
+            System.out.println(memberName + " 회원은 존재하지 않습니다.");
+            return;
+        }
+
+        System.out.println("수정할 항목 선택( ','로 중복선택가능 ex. 1,2,3 )");
+        System.out.println("1.이름 2.나이 3.성별");
+        String[] trigger;
+        triggerLoop : while (true) {
+            Scanner sc2 = new Scanner(System.in);
+            String triggerGroup = sc2.next();
+            trigger = triggerGroup.replace(" ", "").split(",");
+            for (String s : trigger) {
+                if (!Util.canParseInt(s)) {
+                    System.out.println("입력이 정확하지 않습니다. 다시 입력해주세요");
+                    continue triggerLoop;
+                }
+            }
+            break;
+        }
+
+        String changeName;
+        String changeSex;
+        int changeAge;
+        Iterator<String> iterator = Arrays.stream(trigger).iterator();
+        while (iterator.hasNext()) {
+            switch (Integer.parseInt(iterator.next())) {
+                case 1 -> {
+                    System.out.print("변경할 이름을 입력하세요 =>");
+                    changeName = sc.next();
+                    targetMember.get().setName(changeName);
+                }
+                case 2 -> {
+                    System.out.print("변경할 나이를 입력하세요 =>");
+                    changeAge = Util.getScannerNextInt();
+                    targetMember.get().setAge(changeAge);
+                }
+                case 3 -> {
+                    System.out.print("변경할 성별을 입력하세요 =>");
+                    changeSex = Util.getScannerSex();
+                    targetMember.get().setSex(changeSex);
+                }
+            }
+        }
+
+        System.out.println("변경이 완료되었습니다. \r\n");
+    }
+    /* 도서 수정 */
+    private static void updateBook() {
+        Scanner sc = new Scanner(System.in);
+        String bookName;
+        System.out.print("\r\n수정할 도서를 입력하세요 => ");
+        bookName = sc.next();
+        var targetBook = bookList.stream().filter(x -> x.getName().equals(bookName)).findFirst();
+        if (!targetBook.isPresent()) {
+            System.out.println(bookName + " 도서는 존재하지 않습니다.");
+            return;
+        }
+
+        System.out.println("수정할 항목 선택( ','로 중복선택가능 ex. 1,2,3 )");
+        System.out.println("1.제목 2.가격 3.설명");
+        String[] trigger;
+        triggerLoop : while (true) {
+            Scanner sc2 = new Scanner(System.in);
+            String triggerGroup = sc2.next();
+            trigger = triggerGroup.replace(" ", "").split(",");
+            for (String s : trigger) {
+                if (!Util.canParseInt(s)) {
+                    System.out.println("입력이 정확하지 않습니다. 다시 입력해주세요");
+                    continue triggerLoop;
+                }
+            }
+            break;
+        }
+
+        String changeName;
+        int changePrice;
+        String changeDescription;
+        Iterator<String> iterator = Arrays.stream(trigger).iterator();
+        while (iterator.hasNext()) {
+            switch (Integer.parseInt(iterator.next())) {
+                case 1 -> {
+                    System.out.print("변경할 제목을 입력하세요 =>");
+                    changeName = sc.next();
+                    targetBook.get().setName(changeName);
+                }
+                case 2 -> {
+                    System.out.print("변경할 나이를 입력하세요 =>");
+                    changePrice = Util.getScannerNextInt();
+                    targetBook.get().setPrice(changePrice);
+                }
+                case 3 -> {
+                    System.out.print("변경할 설명을 입력하세요 =>");
+                    changeDescription = sc.next();
+                    targetBook.get().setDescription(changeDescription);
+                }
+            }
+        }
+
+        System.out.println("변경이 완료되었습니다. \r\n");
     }
 }

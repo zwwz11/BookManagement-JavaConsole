@@ -29,4 +29,13 @@ public class Util {
             }
         }
     }
+
+    public static boolean canParseInt(String value){
+        try{
+            int target = Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException ex){
+            return false;
+        }
+    }
 }
