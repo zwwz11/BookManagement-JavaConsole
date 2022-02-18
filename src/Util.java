@@ -3,18 +3,17 @@ import java.util.Scanner;
 public class Util {
     /* 숫자외 값이 들어오면 int MinValue 값 할당 */
     public static int getScannerNextInt(){
-        int value;
+        String value;
         while (true) {
             Scanner sc = new Scanner(System.in);
-            try {
-                value = sc.nextInt();
+            value = sc.next();
+            if(canParseInt(value)){
                 break;
-            } catch (Exception ex) {
+            } else {
                 System.out.println("숫자를 입력하세요!");
-                value = Integer.MIN_VALUE;
             }
         }
-        return value;
+        return Integer.parseInt(value);
     }
     /* 올바른 성별 입력을 위한  Scanner */
     public static String getScannerSex(){
@@ -32,7 +31,7 @@ public class Util {
 
     public static boolean canParseInt(String value){
         try{
-            int target = Integer.parseInt(value);
+            Integer.parseInt(value);
             return true;
         } catch (NumberFormatException ex){
             return false;

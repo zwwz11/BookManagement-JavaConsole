@@ -19,13 +19,12 @@ public class Main {
             System.out.println("================= 도서관리 프로그램 입니다.=====================");
             System.out.println("01. 회원등록 \t02. 도서등록 \t03. 회원조회 \t04. 도서조회");
             System.out.println("05. 회원삭제 \t06. 도서삭제 \t07. 도서대여 \t08. 도서반납");
-            System.out.println("09. 회원수정 \t10. 도서수정 \t11. 대여리스트 \t12. 반납리스트");
+            System.out.println("09. 회원수정 \t10. 도서수정 \t11. 대여리스트");
             System.out.println("============================================================");
 
             System.out.print("실행할 기능을 선택하세요. (프로그램 종료 : 0) => ");
-            Scanner sc = new Scanner(System.in);
             int trigger = Util.getScannerNextInt();
-            if(trigger > 12 || trigger < 0){
+            if(trigger > 11 || trigger < 0){
                 System.out.println("잘못된 숫자를 입력하셨습니다. 다시 입력하세요");
                 continue;
             }
@@ -58,8 +57,6 @@ public class Main {
                 case 10 -> updateBook();
                 // 대여리스트
                 case 11 -> displayRentalList();
-                // 반납리스트
-                //case 12 -> {}
             }
 
         }
