@@ -1,5 +1,6 @@
 import javax.swing.text.html.HTMLDocument;
 import java.lang.reflect.Type;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -20,7 +21,7 @@ public class Main {
             System.out.println("05. 회원삭제 \t06. 도서삭제 \t07. 도서대여 \t08. 도서반납");
             System.out.println("09. 회원수정 \t10. 도서수정 \t11. 대여리스트 \t12. 반납리스트");
             System.out.println("============================================================");
-
+            System.out.println("asd");
             System.out.print("실행할 기능을 선택하세요. (프로그램 종료 : 0) => ");
             Scanner sc = new Scanner(System.in);
             int trigger = Util.getScannerNextInt();
